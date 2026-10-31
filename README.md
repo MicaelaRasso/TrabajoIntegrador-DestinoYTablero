@@ -24,6 +24,9 @@ Crea el tablero y distribuye una copia de la lista recibida. Lanza `DimensionesD
 | --- | --- |
 | `int getX()` | Devuelve la cantidad de filas. |
 | `int getY()` | Devuelve la cantidad de columnas. |
+| `void agregarObservador(Observador observador)` | Registra un observador. Requiere que no sea `null` e ignora registros duplicados. |
+| `void quitarObservador(Observador observador)` | Quita un observador. No hace nada si no estaba registrado. |
+| `void notificarObservadores()` | Llama a `actualizar()` en cada observador registrado. |
 | `Posicion getPosicionNave()` | Devuelve la posición actual de la nave. Al construir el tablero, comienza en `(x / 2, y / 2)`. |
 | `void moverNave(Posicion posicion)` | Sitúa la nave en la casilla indicada y notifica a los observadores. La posición debe ser válida. El método no comprueba los límites. |
 | `ElementoDelUniverso inspeccionarPosicion()` | Devuelve el elemento ubicado en la posición actual de la nave, o `null` si la casilla está vacía. |
@@ -32,6 +35,8 @@ Crea el tablero y distribuye una copia de la lista recibida. Lanza `DimensionesD
 | `ElementoDelUniverso[][] verTablero()` | Devuelve una matriz nueva de dimensiones `x` por `y`. La primera dimensión representa filas y la segunda columnas, se accede como `matriz[fila][columna]`. Las casillas vacías contienen `null`. La matriz no incluye la nave ni el objetivo. |
 
 `Posicion` representa coordenadas inmutables y es el tipo usado por las operaciones de movimiento y objetivo. Sus coordenadas coinciden con los índices de la matriz devuelta por `verTablero()`.
+
+`Observable` es una clase abstracta que mantiene el registro de observadores y ofrece los métodos `agregarObservador`, `quitarObservador` y `notificarObservadores`. `Tablero` extiende esta clase. `Observador` define el método `actualizar()`. El tablero notifica a sus observadores al mover la nave y al finalizar cada turno de `Destino`.
 
 ## API pública de `Destino`
 

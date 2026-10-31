@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Observable;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
@@ -236,8 +235,7 @@ public class Tablero extends Observable {
      */
     public void moverNave(Posicion posicion) {
         posicionNave = posicion;
-        setChanged();
-        notifyObservers();
+        notificarObservadores();
     } 
 
     /**
@@ -313,6 +311,7 @@ public class Tablero extends Observable {
             libre = libres.get(azar.nextInt(libres.size()));
         }
         this.objetivo = libre;
+        notificarObservadores();
         return libre;
     }
 
@@ -341,8 +340,7 @@ public class Tablero extends Observable {
      * <p><b>Excepciones declaradas:</b> ninguna.</p>
      */
     protected void notificarActualizacion(){
-        setChanged();
-        notifyObservers();
+        notificarObservadores();
     }
 
 
