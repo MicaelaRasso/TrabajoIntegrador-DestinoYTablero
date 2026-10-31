@@ -1,22 +1,22 @@
 # Destino y Tablero
 
-Este módulo modela un tablero rectangular con elementos, una nave y un objetivo. La clase `Tablero` mantiene el estado de la grilla; `Destino` coordina un turno de intentos de movimiento aleatorios sobre sus elementos. La interacción entre ambas clases se implementa de forma coordinada: `Tablero` mantiene el estado y `Destino` solicita y aplica los movimientos de cada turno.
+Este módulo modela un tablero rectangular con elementos, una nave y un objetivo. La clase `Tablero` mantiene el estado de la grilla. `Destino` coordina un turno de intentos de movimiento aleatorios sobre sus elementos. La interacción entre ambas clases se implementa de forma coordinada: `Tablero` mantiene el estado y `Destino` solicita y aplica los movimientos de cada turno.
 
 ## Modelo del tablero
 
 Las dimensiones se expresan en filas (`x`) y columnas (`y`), entre 5 y 100 inclusive. Las coordenadas de las casillas comienzan en cero: `x` es el índice de fila y `y` el índice de columna. Cada casilla puede alojar como máximo un elemento. La nave y el objetivo se almacenan por separado de la ocupación de elementos.
 
-Al construir el tablero, sus elementos se distribuyen en casillas distintas. La cantidad máxima admitida es `(x * y / 4) * 3`, con división entera. El objetivo y la posición de la nave comienzan sin establecerse.
+Al construir el tablero, sus elementos se distribuyen en casillas distintas. La cantidad máxima admitida es `x * y / 4 * 3`. El objetivo y la posición de la nave comienzan sin establecerse.
 
 ## API pública de `Tablero`
 
 ### Construcción
 
 ```java
-Tablero(int x, int y, ArrayList<ElementoDelUniverso> elementos)
+Tablero(int x, int y, ArrayList<ElementoDelUniverso> elementos) throws DimensionesDeTableroInconsistentesExceptionException, CantidadDeElementosSuperaCasillaException
 ```
 
-Crea el tablero y distribuye una copia de la lista recibida. Lanza `DimensionesDeTableroInconsistentes` si alguna dimensión está fuera del rango permitido y `CantidadDeElementosSuperaCasillaException` si la cantidad supera la capacidad máxima. La excepción conserva ese límite en `getCantidadMaxima()`, además de incluirlo en el mensaje. Si la lista es nula y las dimensiones son válidas, se produce `NullPointerException`.
+Crea el tablero y distribuye una copia de la lista recibida. Lanza `DimensionesDeTableroInconsistentesException` si alguna dimensión está fuera del rango permitido y `CantidadDeElementosSuperaCasillaException` si la cantidad supera la capacidad máxima. La excepción conserva ese límite en `getCantidadMaxima()`, además de incluirlo en el mensaje.
 
 ### Consultas y operaciones
 

@@ -39,17 +39,16 @@ public class Tablero extends Observable {
      * @param x cantidad de filas, entre 5 y 100 inclusive
      * @param y cantidad de columnas, entre 5 y 100 inclusive
      * @param elementos elementos que se ubicarán en el tablero
-     * @throws DimensionesDeTableroInconsistentes si una dimensión está fuera del rango
+     * @throws DimensionesDeTableroInconsistentesException si una dimensión está fuera del rango
      * @throws CantidadDeElementosSuperaCasillaException si la cantidad supera
-     *         {@code (x * y / 4) * 3}, con división entera
-     * @throws NullPointerException si la lista es nula y las dimensiones son válidas
+     *         {@code x * y / 4 * 3}, con división entera
      */
-    public Tablero(int x, int y, ArrayList<ElementoDelUniverso> elementos) throws DimensionesDeTableroInconsistentes, CantidadDeElementosSuperaCasillaException {
+    public Tablero(int x, int y, ArrayList<ElementoDelUniverso> elementos) throws DimensionesDeTableroInconsistentesException, CantidadDeElementosSuperaCasillaException {
         if (x < 5 || y < 5) {
-            throw new DimensionesDeTableroInconsistentes("tamaño mínimo 5x5");
+            throw new DimensionesDeTableroInconsistentesException("tamaño mínimo 5x5");
         }
         if (x > 100 || y > 100) {
-            throw new DimensionesDeTableroInconsistentes("tamaño máximo 100x100");
+            throw new DimensionesDeTableroInconsistentesException("tamaño máximo 100x100");
         }
         int limite = (x * y / 4) * 3;
         if (elementos.size() > limite) {

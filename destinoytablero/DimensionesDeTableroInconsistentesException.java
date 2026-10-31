@@ -1,5 +1,5 @@
 /** Indica que alguna dimensión del tablero está fuera del rango permitido. */
-public class DimensionesDeTableroInconsistentes extends Exception {
+public class DimensionesDeTableroInconsistentesException extends Exception {
     /** Identificador de versión para la serialización. */
     private static final long serialVersionUID = 1L;
 
@@ -9,7 +9,7 @@ public class DimensionesDeTableroInconsistentes extends Exception {
      * <p><b>Postcondiciones:</b> {@link #getMessage()} devuelve el mensaje recibido.</p>
      * @param mensaje descripción del motivo de la excepción
      */
-    public DimensionesDeTableroInconsistentes(String mensaje) {
+    public DimensionesDeTableroInconsistentesException(String mensaje) {
         super(mensaje);
     }
 }
