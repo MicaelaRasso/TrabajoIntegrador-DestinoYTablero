@@ -224,12 +224,51 @@ public class Tablero extends Observable {
      * @param posicion nueva ubicación de la nave
      * @return elemento presente en esa casilla, o {@code null} si está vacía
      */
-    public ElementoDelUniverso moverNave(Posicion posicion) {
+    public void moverNave(Posicion posicion) {
         posicionNave = posicion;
         setChanged();
         notifyObservers();
-        return ocupacion.get(posicion);
+    } 
+
+    /**
+     * Consulta el elemento ubicado en la posición actual de la nave.
+     * <p><b>Precondiciones:</b> la ocupación del tablero y la posición de la
+     * nave ya están establecidas.</p>
+     * <p><b>Postcondiciones:</b> no modifica el tablero ni la posición de la
+     * nave.</p>
+     * @return elemento en la posición de la nave, o {@code null} si está vacía
+     */
+    public ElementoDelUniverso inspeccionarPosicion() {
+        return ocupacion.get(posicionNave);
     }
+
+    /**
+     * Devuelve los elementos del vecindario de 3 por 3 centrado en la nave.
+     * Las filas y columnas de la matriz avanzan en el mismo sentido que las
+     * coordenadas del tablero; las casillas vacías y las que quedan fuera del
+     * tablero se representan con {@code null}.
+     * <p><b>Precondiciones:</b> la posición de la nave debe estar establecida
+     * antes de llamar a este método.</p>
+     * <p><b>Postcondiciones:</b> devuelve una matriz nueva de tamaño 3 por 3,
+     * con la ocupación observada al momento de la llamada. Modificar la matriz
+     * no modifica el tablero; los elementos se comparten por referencia.</p>
+     * @return matriz del vecindario, con la posición de la nave en [1][1]
+     */
+    public ElementoDelUniverso[][] observarAlrededores() {
+        ElementoDelUniverso[][] alrededores = new ElementoDelUniverso[3][3];
+        for (int fila = -1; fila <= 1; fila++) {
+            for (int columna = -1; columna <= 1; columna++) {
+                Posicion posicion = new Posicion(posicionNave.getX() + fila,
+                        posicionNave.getY() + columna);
+                if (estaDentro(posicion)) {
+                    alrededores[fila + 1][columna + 1] = ocupacion.get(posicion);
+                }
+            }
+        }
+        return alrededores;
+    }
+
+    
 
     /**
      * Consulta el objetivo actual sin volver a elegirlo.

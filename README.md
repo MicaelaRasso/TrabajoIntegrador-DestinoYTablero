@@ -13,7 +13,7 @@ Al construir el tablero, sus elementos se distribuyen en casillas distintas. La 
 ### Construcción
 
 ```java
-Tablero(int x, int y, ArrayList<ElementoDelUniverso> elementos) throws DimensionesDeTableroInconsistentesExceptionException, CantidadDeElementosSuperaCasillaException
+Tablero(int x, int y, ArrayList<ElementoDelUniverso> elementos) throws DimensionesDeTableroInconsistentesException, CantidadDeElementosSuperaCasillaException
 ```
 
 Crea el tablero y distribuye una copia de la lista recibida. Lanza `DimensionesDeTableroInconsistentesException` si alguna dimensión está fuera del rango permitido y `CantidadDeElementosSuperaCasillaException` si la cantidad supera la capacidad máxima. La excepción conserva ese límite en `getCantidadMaxima()`, además de incluirlo en el mensaje.
@@ -24,8 +24,10 @@ Crea el tablero y distribuye una copia de la lista recibida. Lanza `DimensionesD
 | --- | --- |
 | `int getX()` | Devuelve la cantidad de filas. |
 | `int getY()` | Devuelve la cantidad de columnas. |
-| `ElementoDelUniverso moverNave(Posicion posicion)` | Sitúa la nave en la casilla indicada y devuelve el elemento que la ocupa, o `null` si está vacía. Notifica a los observadores. La posición debe ser válida, el método no comprueba los límites. |
-| `Posicion obtenerObjetivo()` | Elige y guarda una posición objetivo en una casilla sin elementos. Puede coincidir con el objetivo anterior. |
+| `void moverNave(Posicion posicion)` | Sitúa la nave en la casilla indicada y notifica a los observadores. La posición debe ser válida; el método no comprueba los límites. |
+| `ElementoDelUniverso inspeccionarPosicion()` | Devuelve el elemento ubicado en la posición actual de la nave, o `null` si la casilla está vacía. Requiere que la posición de la nave ya esté establecida. |
+| `ElementoDelUniverso[][] observarAlrededores()` | Devuelve una matriz nueva de 3 por 3 con los elementos del vecindario de la nave. La nave queda en `[1][1]`; filas y columnas avanzan en el mismo sentido que las coordenadas del tablero. Casillas vacías y posiciones fuera del tablero contienen `null`. Requiere que la posición de la nave esté establecida. |
+| `Posicion obtenerObjetivo()` | Elige y guarda una posición objetivo en una casilla sin elementos. |
 | `ElementoDelUniverso[][] verTablero()` | Devuelve una matriz nueva de dimensiones `x` por `y`. La primera dimensión representa filas y la segunda columnas, se accede como `matriz[fila][columna]`. Las casillas vacías contienen `null`. La matriz no incluye la nave ni el objetivo. |
 
 `Posicion` representa coordenadas inmutables y es el tipo usado por las operaciones de movimiento y objetivo. Sus coordenadas coinciden con los índices de la matriz devuelta por `verTablero()`.
