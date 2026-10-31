@@ -5,7 +5,7 @@ public class DimensionesDeTableroInconsistentesException extends Exception {
 
     /**
      * Crea la excepción con el mensaje recibido.
-     * <p><b>Precondiciones:</b> ninguna; el mensaje puede ser nulo.</p>
+     * <p><b>Precondiciones:</b> ninguna. El mensaje puede ser nulo.</p>
      * <p><b>Postcondiciones:</b> {@link #getMessage()} devuelve el mensaje recibido.</p>
      * @param mensaje descripción del motivo de la excepción
      */

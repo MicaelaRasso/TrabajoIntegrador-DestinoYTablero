@@ -10,7 +10,7 @@ import java.util.Set;
 
 /**
  * Administra una grilla rectangular, sus elementos, la nave y el objetivo.
- * La coordenada x identifica la fila y la coordenada y la columna; ambas
+ * La coordenada x identifica la fila y la coordenada y la columna. Ambas
  * comienzan en 0. Cada casilla admite un elemento.
  */
 public class Tablero extends Observable {
@@ -33,7 +33,7 @@ public class Tablero extends Observable {
      * Crea el tablero y distribuye aleatoriamente los elementos recibidos.
      * <p><b>Precondiciones:</b> la lista no es nula y contiene los elementos
      * que se desean distribuir.</p>
-     * <p><b>Postcondiciones:</b> conserva una copia de la lista; cada entrada
+     * <p><b>Postcondiciones:</b> conserva una copia de la lista. Cada entrada
      * ocupa una casilla distinta dentro del tablero. La nave comienza en el
      * centro del tablero y el objetivo comienza en {@code null}.</p>
      * @param x cantidad de filas, entre 5 y 100 inclusive
@@ -94,7 +94,7 @@ public class Tablero extends Observable {
      * <p><b>Precondiciones:</b> se mantienen las dimensiones y el límite de
      * elementos establecidos al construir el tablero.</p>
      * <p><b>Postcondiciones:</b> cada entrada de la lista ocupa una casilla
-     * distinta dentro del tablero; el objetivo sigue libre. La nave y el
+     * distinta dentro del tablero. El objetivo sigue libre. La nave y el
      * objetivo conservan sus posiciones. Este método no notifica a los
      * observadores.</p>
      */
@@ -113,7 +113,7 @@ public class Tablero extends Observable {
      * <p><b>Precondiciones:</b> la posición inicial no es nula y está dentro
      * del tablero.</p>
      * <p><b>Postcondiciones:</b> devuelve una casilla sin elemento y distinta
-     * del objetivo; no altera la ocupación, la nave ni el objetivo.
+     * del objetivo. No altera la ocupación, la nave ni el objetivo.
      * Los empates no se resuelven necesariamente con probabilidad uniforme.</p>
      * @param actual posición inicial de la búsqueda
      * @return posición disponible más cercana, o la inicial si ya está disponible
@@ -148,7 +148,7 @@ public class Tablero extends Observable {
      * Construye la lista de vecinas horizontales, verticales y diagonales válidas.
      * <p><b>Precondiciones:</b> la posición no es nula y pertenece al tablero.</p>
      * <p><b>Postcondiciones:</b> devuelve una lista nueva de hasta ocho posiciones,
-     * sin incluir el centro ni coordenadas fuera del tablero; no modifica el estado.</p>
+     * sin incluir el centro ni coordenadas fuera del tablero. No modifica el estado.</p>
      * @param posicion centro del vecindario
      * @return posiciones vecinas dentro de los límites
      * @throws NullPointerException si la posición es nula
@@ -183,8 +183,8 @@ public class Tablero extends Observable {
 
     /**
      * Comprueba si una casilla puede recibir un elemento.
-     * <p><b>Precondiciones:</b> la posición no es nula y está dentro del tablero;
-     * este método no comprueba los límites.</p>
+     * <p><b>Precondiciones:</b> la posición no es nula y está dentro del tablero.
+     * Este método no comprueba los límites.</p>
      * <p><b>Postcondiciones:</b> el estado permanece igual.</p>
      * @param posicion casilla por consultar
      * @return {@code true} si no hay elemento y no coincide con el objetivo
@@ -197,7 +197,7 @@ public class Tablero extends Observable {
      * Enumera las casillas que no contienen elementos.
      * <p><b>Precondiciones:</b> ninguna.</p>
      * <p><b>Postcondiciones:</b> devuelve una lista nueva, ordenada por fila
-     * y luego por columna; puede incluir el objetivo. No modifica el estado.</p>
+     * y luego por columna. Puede incluir el objetivo. No modifica el estado.</p>
      * @return todas las casillas sin elementos, o una lista vacía si no hay ninguna
      */
     private ArrayList<Posicion> casillasLibres() {
@@ -217,8 +217,8 @@ public class Tablero extends Observable {
      * Obtiene una copia de la ocupación actual.
      * <p><b>Precondiciones:</b> ninguna.</p>
      * <p><b>Postcondiciones:</b> modificar las entradas del mapa devuelto no altera
-     * el tablero. Las posiciones y los elementos se comparten por referencia;
-     * no se clonan. La nave y el objetivo no se agregan al mapa.</p>
+     * el tablero. Las posiciones y los elementos se comparten por referencia.
+     * No se clonan. La nave y el objetivo no se agregan al mapa.</p>
      * @return copia del mapa de posiciones ocupadas y sus elementos
      */
     protected HashMap<Posicion, ElementoDelUniverso> obtenerElementos() {
@@ -227,10 +227,10 @@ public class Tablero extends Observable {
 
     /**
      * Actualiza la posición de la nave y consulta el elemento de esa casilla.
-     * <p><b>Precondiciones:</b> la posición no es nula y está dentro del tablero;
+     * <p><b>Precondiciones:</b> la posición no es nula y está dentro del tablero.
      * el llamador garantiza estas condiciones, que no se validan.</p>
      * <p><b>Postcondiciones:</b> la nave queda en la posición recibida, incluso
-     * si contiene un elemento. La ocupación y el objetivo permanecen iguales;
+     * si contiene un elemento. La ocupación y el objetivo permanecen iguales.
      * al terminar, notifica a los observadores registrados en este tablero.</p>
      * @param posicion nueva ubicación de la nave
      */
@@ -253,11 +253,11 @@ public class Tablero extends Observable {
     /**
      * Devuelve los elementos del vecindario de 3 por 3 centrado en la nave.
      * Las filas y columnas de la matriz avanzan en el mismo sentido que las
-     * coordenadas del tablero; las casillas vacías y las que quedan fuera del
+     * coordenadas del tablero. Las casillas vacías y las que quedan fuera del
      * tablero se representan con {@code null}.
      * <p><b>Postcondiciones:</b> devuelve una matriz nueva de tamaño 3 por 3,
      * con la ocupación observada al momento de la llamada. Modificar la matriz
-     * no modifica el tablero; los elementos se comparten por referencia.</p>
+     * no modifica el tablero. Los elementos se comparten por referencia.</p>
      * @return matriz del vecindario, con la posición de la nave en [1][1]
      */
     public ElementoDelUniverso[][] observarAlrededores() {
@@ -291,8 +291,8 @@ public class Tablero extends Observable {
      * <p><b>Precondiciones:</b> existe al menos una casilla sin elementos,
      * garantizada por el límite de ocupación bajo el uso previsto del tablero.
      * La posición de referencia es la posición actual de la nave.</p>
-     * <p><b>Postcondiciones:</b> el objetivo guardado coincide con el resultado;
-     * puede ser igual al anterior. No cambia la ocupación ni la nave.</p>
+     * <p><b>Postcondiciones:</b> el objetivo guardado coincide con el resultado.
+     * Puede ser igual al anterior. No cambia la ocupación ni la nave.</p>
      * @return nueva posición del objetivo
      */
     public Posicion obtenerObjetivo() {
@@ -318,7 +318,7 @@ public class Tablero extends Observable {
 
     /**
      * Traslada un elemento entre dos posiciones.
-     * <p><b>Precondiciones:</b> el origen está ocupado; el destino no es nulo,
+     * <p><b>Precondiciones:</b> el origen está ocupado. El destino no es nulo,
      * está dentro del tablero, está libre y no coincide con el objetivo.
      * El llamador garantiza estas condiciones, que no se validan.</p>
      * <p><b>Postcondiciones:</b> el origen queda libre y el mismo elemento queda
@@ -337,7 +337,7 @@ public class Tablero extends Observable {
      * actualizó.
      * <p><b>Precondiciones:</b> ninguna.</p>
      * <p><b>Postcondiciones:</b> marca el tablero como modificado y notifica a
-     * sus observadores; no altera dimensiones, ocupación, nave ni objetivo.</p>
+     * sus observadores. No altera dimensiones, ocupación, nave ni objetivo.</p>
      * <p><b>Excepciones declaradas:</b> ninguna.</p>
      */
     protected void notificarActualizacion(){
@@ -349,12 +349,12 @@ public class Tablero extends Observable {
     /**
      * Devuelve una representación matricial de los elementos ocupantes del
      * tablero. La primera dimensión corresponde a las filas y la segunda a las
-     * columnas; las casillas vacías se representan con {@code null}.
+     * columnas. Las casillas vacías se representan con {@code null}.
      * <p><b>Precondiciones:</b> ninguna.</p>
      * <p><b>Postcondiciones:</b> devuelve una matriz nueva de tamaño
      * {@code x} por {@code y}, donde el primer índice es la fila y el segundo
      * la columna, con la ocupación observada al momento de la llamada.
-     * Modificar la matriz no modifica el tablero; los elementos
+     * Modificar la matriz no modifica el tablero. Los elementos
      * contenidos se comparten por referencia. No incluye la nave ni el
      * objetivo.</p>
      * <p><b>Excepciones declaradas:</b> ninguna.</p>

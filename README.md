@@ -25,9 +25,9 @@ Crea el tablero y distribuye una copia de la lista recibida. Lanza `DimensionesD
 | `int getX()` | Devuelve la cantidad de filas. |
 | `int getY()` | Devuelve la cantidad de columnas. |
 | `Posicion getPosicionNave()` | Devuelve la posición actual de la nave. Al construir el tablero, comienza en `(x / 2, y / 2)`. |
-| `void moverNave(Posicion posicion)` | Sitúa la nave en la casilla indicada y notifica a los observadores. La posición debe ser válida; el método no comprueba los límites. |
+| `void moverNave(Posicion posicion)` | Sitúa la nave en la casilla indicada y notifica a los observadores. La posición debe ser válida. El método no comprueba los límites. |
 | `ElementoDelUniverso inspeccionarPosicion()` | Devuelve el elemento ubicado en la posición actual de la nave, o `null` si la casilla está vacía. |
-| `ElementoDelUniverso[][] observarAlrededores()` | Devuelve una matriz nueva de 3 por 3 con los elementos del vecindario de la nave. La nave queda en `[1][1]`; filas y columnas avanzan en el mismo sentido que las coordenadas del tablero. Casillas vacías y posiciones fuera del tablero contienen `null`. |
+| `ElementoDelUniverso[][] observarAlrededores()` | Devuelve una matriz nueva de 3 por 3 con los elementos del vecindario de la nave. La nave queda en `[1][1]`. Las filas y columnas avanzan en el mismo sentido que las coordenadas del tablero. Las casillas vacías y las posiciones fuera del tablero contienen `null`. |
 | `Posicion obtenerObjetivo()` | Elige y guarda una posición objetivo en una casilla sin elementos. |
 | `ElementoDelUniverso[][] verTablero()` | Devuelve una matriz nueva de dimensiones `x` por `y`. La primera dimensión representa filas y la segunda columnas, se accede como `matriz[fila][columna]`. Las casillas vacías contienen `null`. La matriz no incluye la nave ni el objetivo. |
 

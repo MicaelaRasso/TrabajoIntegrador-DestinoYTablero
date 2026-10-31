@@ -7,7 +7,7 @@ public class CantidadDeElementosSuperaCasillaException extends Exception {
 
     /**
      * Crea la excepción con el mensaje y la capacidad máxima del tablero.
-     * <p><b>Precondiciones:</b> ninguna; el mensaje puede ser nulo.</p>
+     * <p><b>Precondiciones:</b> ninguna. El mensaje puede ser nulo.</p>
      * <p><b>Postcondiciones:</b> {@link #getMessage()} devuelve el mensaje
      * recibido y {@link #getCantidadMaxima()} devuelve la cantidad máxima
      * recibida.</p>
