@@ -24,7 +24,7 @@ public class Tablero extends Observable {
     private final HashMap<Posicion, ElementoDelUniverso> ocupacion = new HashMap<Posicion, ElementoDelUniverso>();
     /** Generador para distribuir elementos y elegir objetivos. */
     private final Random azar = new Random();
-    /** Ubicación de la nave, o nulo si todavía no se estableció. */
+    /** Ubicación actual de la nave. */
     private Posicion posicionNave;
     /** Objetivo actual, o nulo si todavía no se eligió. */
     private Posicion objetivo;
@@ -34,8 +34,8 @@ public class Tablero extends Observable {
      * <p><b>Precondiciones:</b> la lista no es nula y contiene los elementos
      * que se desean distribuir.</p>
      * <p><b>Postcondiciones:</b> conserva una copia de la lista; cada entrada
-     * ocupa una casilla distinta dentro del tablero. La nave y el objetivo
-     * comienzan en {@code null}.</p>
+     * ocupa una casilla distinta dentro del tablero. La nave comienza en el
+     * centro del tablero y el objetivo comienza en {@code null}.</p>
      * @param x cantidad de filas, entre 5 y 100 inclusive
      * @param y cantidad de columnas, entre 5 y 100 inclusive
      * @param elementos elementos que se ubicarán en el tablero
@@ -57,6 +57,7 @@ public class Tablero extends Observable {
         this.x = x;
         this.y = y;
         this.elementos = new ArrayList<ElementoDelUniverso>(elementos);
+        this.posicionNave = new Posicion(x / 2, y / 2);
         distribuirObjetos();
     }
 
@@ -74,6 +75,16 @@ public class Tablero extends Observable {
      */
     public int getY() {
         return y;
+    }
+
+    /**
+     * Consulta la posición actual de la nave.
+     * <p><b>Precondiciones:</b> ninguna.</p>
+     * <p><b>Postcondiciones:</b> el estado del tablero permanece igual.</p>
+     * @return posición actual de la nave
+     */
+    public Posicion getPosicionNave() {
+        return posicionNave;
     }
 
     /**
@@ -222,7 +233,6 @@ public class Tablero extends Observable {
      * si contiene un elemento. La ocupación y el objetivo permanecen iguales;
      * al terminar, notifica a los observadores registrados en este tablero.</p>
      * @param posicion nueva ubicación de la nave
-     * @return elemento presente en esa casilla, o {@code null} si está vacía
      */
     public void moverNave(Posicion posicion) {
         posicionNave = posicion;
@@ -232,8 +242,6 @@ public class Tablero extends Observable {
 
     /**
      * Consulta el elemento ubicado en la posición actual de la nave.
-     * <p><b>Precondiciones:</b> la ocupación del tablero y la posición de la
-     * nave ya están establecidas.</p>
      * <p><b>Postcondiciones:</b> no modifica el tablero ni la posición de la
      * nave.</p>
      * @return elemento en la posición de la nave, o {@code null} si está vacía
@@ -247,8 +255,6 @@ public class Tablero extends Observable {
      * Las filas y columnas de la matriz avanzan en el mismo sentido que las
      * coordenadas del tablero; las casillas vacías y las que quedan fuera del
      * tablero se representan con {@code null}.
-     * <p><b>Precondiciones:</b> la posición de la nave debe estar establecida
-     * antes de llamar a este método.</p>
      * <p><b>Postcondiciones:</b> devuelve una matriz nueva de tamaño 3 por 3,
      * con la ocupación observada al momento de la llamada. Modificar la matriz
      * no modifica el tablero; los elementos se comparten por referencia.</p>
@@ -283,13 +289,14 @@ public class Tablero extends Observable {
     /**
      * Elige y guarda un objetivo aleatorio entre las casillas sin elementos.
      * <p><b>Precondiciones:</b> existe al menos una casilla sin elementos,
-     * garantizada por el límite de ocupación bajo el uso previsto del tablero.</p>
+     * garantizada por el límite de ocupación bajo el uso previsto del tablero.
+     * La posición de referencia es la posición actual de la nave.</p>
      * <p><b>Postcondiciones:</b> el objetivo guardado coincide con el resultado;
      * puede ser igual al anterior. No cambia la ocupación ni la nave.</p>
      * @return nueva posición del objetivo
      */
     public Posicion obtenerObjetivo() {
-        Posicion referencia = posicionNave == null ? new Posicion(x / 2, y / 2): posicionNave;
+        Posicion referencia = posicionNave;
         Posicion libre = null;
         ArrayList<Posicion> libres = casillasLibres();
         Collections.shuffle(libres, azar);
