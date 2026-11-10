@@ -26,7 +26,7 @@ Crea el tablero y distribuye una copia de la lista recibida. Lanza `DimensionesD
 | `int getY()` | Devuelve la cantidad de columnas. |
 | `void agregarObservador(Observador observador)` | Registra un observador. Requiere que no sea `null` e ignora registros duplicados. |
 | `void quitarObservador(Observador observador)` | Quita un observador. No hace nada si no estaba registrado. |
-| `void notificarObservadores()` | Llama a `actualizar()` en cada observador registrado. |
+| `void notificarObservadores(String mensaje)` | Llama a `actualizar(mensaje)` en cada observador registrado. *(Versión 2, en la versión 1 era `notificarObservadores()`.)* |
 | `Posicion getPosicionNave()` | Devuelve la posición actual de la nave. Al construir el tablero, comienza en `(x / 2, y / 2)`. |
 | `void moverNave(Posicion posicion)` | Sitúa la nave en la casilla indicada y notifica a los observadores. La posición debe ser válida. El método no comprueba los límites. |
 | `ElementoDelUniverso inspeccionarPosicion()` | Devuelve el elemento ubicado en la posición actual de la nave, o `null` si la casilla está vacía. |
@@ -36,7 +36,7 @@ Crea el tablero y distribuye una copia de la lista recibida. Lanza `DimensionesD
 
 `Posicion` representa coordenadas inmutables y es el tipo usado por las operaciones de movimiento y objetivo. Sus coordenadas coinciden con los índices de la matriz devuelta por `verTablero()`.
 
-`Observable` es una clase abstracta que mantiene el registro de observadores y ofrece los métodos `agregarObservador`, `quitarObservador` y `notificarObservadores`. `Tablero` extiende esta clase. `Observador` define el método `actualizar()`. El tablero notifica a sus observadores al mover la nave y al finalizar cada turno de `Destino`.
+`Observable` es una clase abstracta que mantiene el registro de observadores y ofrece los métodos `agregarObservador`, `quitarObservador` y `notificarObservadores`. `Tablero` extiende esta clase. `Observador` define el método `actualizar(String mensaje)` (en la versión 1, `actualizar()`). El tablero notifica a sus observadores al mover la nave y al finalizar cada turno de `Destino`.
 
 ## API pública de `Destino`
 
@@ -61,3 +61,36 @@ Los movimientos se procesan secuencialmente. Al finalizar, notifica a los
 observadores del tablero, aunque ningún elemento haya podido moverse.
 
 Los ejemplos y firmas usan `ElementoDelUniverso`, el tipo de elemento del dominio.
+
+## Versión 2
+
+Por solicitud de algunos grupos, se actualizaron ciertos comportamientos del módulo. Los demás grupos pueden mantener su funcionamiento con el sistema anterior (la versión que ya tienen descargada) o integrar esta nueva versión.
+
+### Notificaciones con mensaje
+
+Las notificaciones a los observadores ahora incluyen un mensaje que describe lo ocurrido. Los métodos sin parámetros de la versión 1 se reemplazan por:
+
+| Versión 1 | Versión 2 |
+| --- | --- |
+| `Observable.notificarObservadores()` | `Observable.notificarObservadores(String mensaje)` |
+| `Observador.actualizar()` | `Observador.actualizar(String mensaje)` |
+
+Quien integre la versión 2 debe implementar `actualizar(String mensaje)` en sus observadores en lugar de `actualizar()`.
+
+El tablero envía estos mensajes:
+
+| Evento | Mensaje |
+| --- | --- |
+| `moverNave(posicion)` | `La nave se movió a la posición (x, y).` |
+| `obtenerObjetivo()` | `Se estableció el objetivo en la posición (x, y).` |
+| Fin de `turnoDestino()` | `Finalizó el turno de Destino: se movieron M de N elementos seleccionados.` |
+
+### Acceso público al objetivo
+
+`getObjetivo()` de `Tablero` pasa de `protected` a `public`:
+
+| Método | Comportamiento |
+| --- | --- |
+| `Posicion getObjetivo()` | Devuelve el objetivo actual sin volver a elegirlo, o `null` si todavía no se eligió uno. No modifica el tablero. |
+
+A diferencia de `obtenerObjetivo()`, este método no elige un objetivo nuevo ni notifica a los observadores.
